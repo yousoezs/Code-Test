@@ -82,19 +82,15 @@ const App = () => {
   const handleOnDragPivotControls = (matrix: Matrix4) => {
 
     if (!selectedHouseObject || !selectedPointObject) return;
-    // Get the new position of the point during the drag
+
     const newPointPosition = new Vector3().setFromMatrixPosition(matrix);
 
-    // Calculate the delta (difference) between the new position and the initial position
     const delta = new Vector3().subVectors(newPointPosition, initialPointPosition);
 
-    // Apply this delta to the house's position
     selectedHouseObject.position.add(delta);
+    selectedHouseObject.rotation.setFromRotationMatrix(matrix);
 
-    // Update the initial position for the next frame
     initialPointPosition.copy(newPointPosition);
-
-    // Update the pivot's matrix to follow the point's new position
     pivotMatrix.copy(selectedPointObject.matrixWorld);
   };
 

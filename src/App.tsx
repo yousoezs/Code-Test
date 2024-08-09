@@ -139,11 +139,18 @@ const App = () => {
       <div style={{ position: "absolute", top: 20, left: 20, display: "flex", flexDirection: "column", gap: "1rem" }}>
         {houses.map((house, i) => (<div style={{ background: "white" }}>
           <p>House Number: {i}</p>
+          <p>House ID: {house.id}</p>
           <p>House Position X: {house.position[0]} Y: {house.position[1]} Z: {house.position[2]}</p>
           <p>House Rotation X: {house.rotation[0]} Y: {house.rotation[1]} Z: {house.rotation[2]}</p>
           <p>House Amount Of Points: {house.points.length}</p>
           <p>House Height: {house.height}</p>
         </div>))}
+        <div style={{ position: "absolute", top: 20, left: 250, display: "flex", flexDirection: "column", background: "white"}}>
+          <p>CurrentHouse: {selectedHouseObject?.id}</p>
+          <p>CurrentHouse Position: X: {selectedHouseObject?.position.x} Y: {selectedHouseObject?.position.y} Z: {selectedHouseObject?.position.z}</p>
+          <p>CurrentHouse Rotation: X: {selectedHouseObject?.rotation.x} Y: {selectedHouseObject?.rotation.y} Z: {selectedHouseObject?.rotation.z}</p>
+          <p>CurrentHouse Height: {selectedHouseObject?.id}</p>
+        </div>
       </div>
       <button
         style={{ position: "absolute", right: 20, top: 20, height: "40px" }}

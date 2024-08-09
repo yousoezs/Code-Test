@@ -103,11 +103,6 @@ const App = () => {
   };
 
   const handleOnClickGetHousesFromAPI = () => {
-    /** IMPLEMENT:
-     * Fetch houses from an API and update the houses state.
-     * URL: https://scaffcalc.com/api/houses
-     * METHOD: GET
-     */
     //This is to reset the values of the selected house and point.
     setSelectedHouseObject(undefined);
     setSelectedPointObject(undefined);

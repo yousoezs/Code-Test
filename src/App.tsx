@@ -62,19 +62,34 @@ const App = () => {
     pointObject: Object3D,
     houseObject: Object3D
   ) => {
+    console.log("clicked house");
     pivotMatrix.copy(pointObject.matrixWorld);
     setSelectedPointObject(pointObject);
     setSelectedHouseObject(houseObject);
   };
 
   const handleOnDragPivotControls = (matrix: Matrix4) => {
-    pivotMatrix.copy(matrix);
+    
+    if(!selectedHouseObject || !selectedPointObject) return;
 
+    //Using the matrix to set the position and rotation of the house
+    selectedHouseObject.position.setFromMatrixPosition(matrix);
+    selectedHouseObject.rotation.setFromRotationMatrix(matrix);
+    
+    //TODO: Find out why pointObject is not following correct button click on pivot.
+
+    //Copying values afterwards to update the position more accordingly.
+    pivotMatrix.copy(matrix);
     /** IMPLEMENT:
      * Add logic that updates the position and rotation of the selected house object
      * based on the selected point object's position and rotation.
      */
   };
+
+  const getAxisesOnChange = (matrix: Matrix4) => {
+    let values: [number, number, number];
+
+  }
 
   const handleOnDragEndPivotControls = () => {
     setEnabledCameraControls(true);
@@ -102,7 +117,8 @@ const App = () => {
   return (
     <Container style={CONTAINER_STYLE}>
       <Canvas camera={{ position: CAMERA_POSITION }}>
-        <AxesHelper />
+        <AxesHelper 
+        />
         <CameraControls enabled={enabledCameraControls} />
         <GridHelper position={GRID_POSITION} args={[GRID_SIZE, GRID_SIZE]} />
         <HouseManager

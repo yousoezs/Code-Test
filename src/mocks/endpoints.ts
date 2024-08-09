@@ -30,9 +30,6 @@ export const getHousesGenerator: () => House[] = () => {
     } as House;
     houses.push(house);
   }
-  /** IMPLEMENT:
-   * Implement the generator function according to the objectives of the use case.
-   */
 
   return houses;
 };

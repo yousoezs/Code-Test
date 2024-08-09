@@ -11,6 +11,7 @@ const HouseManager = (props: HouseManagerProps) => {
           key={index}
           {...house}
           onClickHousePointObject={(pointObject) => {
+            //Re-wrote old logic here, instead of using parent?.parent?.children.find etc... Using Parent is enough to get HouseGroup.
             const houseGroupObject = pointObject.parent;
             
             if (onClickHousePointObject && houseGroupObject)

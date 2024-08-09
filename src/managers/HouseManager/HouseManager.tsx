@@ -11,10 +11,8 @@ const HouseManager = (props: HouseManagerProps) => {
           key={index}
           {...house}
           onClickHousePointObject={(pointObject) => {
-            const houseGroupObject = pointObject.parent?.parent?.children.find(
-              (child) => child.name === "HouseGroup"
-            );
-
+            const houseGroupObject = pointObject.parent;
+            
             if (onClickHousePointObject && houseGroupObject)
               onClickHousePointObject(pointObject, houseGroupObject);
           }}

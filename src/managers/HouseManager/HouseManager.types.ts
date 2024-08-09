@@ -1,6 +1,7 @@
 import { Object3D, Vector3Tuple } from "three";
 
 interface House {
+  id: number,
   points: [Vector3Tuple, Vector3Tuple, Vector3Tuple, Vector3Tuple];
   position: Vector3Tuple;
   rotation: Vector3Tuple;

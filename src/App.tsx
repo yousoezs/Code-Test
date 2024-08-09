@@ -27,6 +27,7 @@ const CONTAINER_STYLE = {
   backgroundColor: "#151d2c"
 };
 const HOUSE_INIT: House = {
+  id: 0,
   points: [
     [0, 0, 0],
     [2, 0, 0],
@@ -73,6 +74,8 @@ const App = () => {
     
     //Copying the selectedPointObject matrixWorld to ensure correct point was selected when dragging.
     pivotMatrix.copy(selectedPointObject.matrixWorld);
+    
+    let foundHouse = houses.find(house => house.id === selectedHouseObject.id);
     //Using the matrix to set the position and rotation of the house
     selectedHouseObject.position.setFromMatrixPosition(matrix);
     selectedHouseObject.rotation.setFromRotationMatrix(matrix);
@@ -108,6 +111,7 @@ const App = () => {
   /** Return */
   return (
     <Container style={CONTAINER_STYLE}>
+      
       <Canvas camera={{ position: CAMERA_POSITION }}>
         <AxesHelper 
         />
@@ -127,6 +131,15 @@ const App = () => {
           onDragEnd={handleOnDragEndPivotControls}
         />
       </Canvas>
+      <div style={{position: "absolute", top: 20, left: 20, display: "flex", flexDirection: "column", gap: "1rem"}}>
+      {houses.map((house, i) => (<div style={{background: "white"}}>
+        <p>House Number: {i}</p>
+        <p>House Position X: {house.position[0]} Y: {house.position[1]} Z: {house.position[2]}</p>
+        <p>House Rotation X: {house.rotation[0]} Y: {house.rotation[1]} Z: {house.rotation[2]}</p>
+        <p>House Amount Of Points: {house.points.length}</p>
+        <p>House Height: {house.height}</p>
+        </div>))}
+      </div>
       <button
         style={{ position: "absolute", right: 20, top: 20, height: "40px" }}
         onClick={handleOnClickGetHousesFromAPI}

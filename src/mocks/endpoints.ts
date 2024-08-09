@@ -23,6 +23,7 @@ export const getHousesGenerator: () => House[] = () => {
     }
 
     const house = {
+      id: i,
       points: pointsRandomVal,
       position: pointsRandomVal[0],
       rotation: houseRandomValRot,

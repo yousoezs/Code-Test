@@ -30,7 +30,7 @@ export const getHousesGenerator: () => House[] = () => {
 
 /**
  * The method getRandomXZPos returns random X and Z values for the position of the house as well as for the points.
- * The method will also try and convex the shapes of the buildings.
+ * The method will also try and convex the shapes of the buildings by checking if the last index of the loop is passing trough points.
  * @returns "tempRandomVal of type [][]"
  */
 const getRandomXZPos = () => {

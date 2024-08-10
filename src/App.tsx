@@ -16,6 +16,8 @@ import GridHelper from "components/GridHelper";
 import HouseManager from "managers/HouseManager";
 import Light from "components/Light";
 import PivotControls from "components/PivotControls";
+import "./App.css";
+
 
 /** Constants */
 const CAMERA_POSITION = [10, 10, 10] as Vector3Tuple;
@@ -64,7 +66,6 @@ const App = () => {
     houseObject: Object3D
   ) => {
     pivotMatrix.copy(pointObject.matrixWorld);
-
     setSelectedPointObject(pointObject);
     setSelectedHouseObject(houseObject);
 
@@ -83,15 +84,15 @@ const App = () => {
   const handleOnDragPivotControls = (matrix: Matrix4) => {
 
     if (!selectedHouseObject || !selectedPointObject) return;
-
     pivotMatrix.copy(matrix);
-    
     const newPointPosition = new Vector3().setFromMatrixPosition(matrix);
 
     const delta = new Vector3().subVectors(newPointPosition, initialPointPosition);
 
     selectedHouseObject.position.add(delta);
-    selectedHouseObject.rotation.setFromRotationMatrix(matrix);
+    //PSEUDO: Rotate object based on pointobject rotation.
+    selectedHouseObject.setRotationFromMatrix(selectedPointObject.matrix);
+
     initialPointPosition.copy(newPointPosition);
   };
 
@@ -130,6 +131,7 @@ const App = () => {
         <Light />
         <PivotControls
           {...PIVOT_DEFAULT_PROPS}
+
           enabled={!!selectedHouseObject}
           matrix={pivotMatrix}
           onDragStart={handleOnDragStartPivotControls}
@@ -137,8 +139,8 @@ const App = () => {
           onDragEnd={handleOnDragEndPivotControls}
         />
       </Canvas>
-      <div style={{ position: "absolute", top: 20, left: 20, display: "flex", flexDirection: "column", gap: "1rem" }}>
-        {houses.map((house, i) => (<div style={{ background: "white" }}>
+      <div id="container">
+        {houses.map((house, i) => (<div id="mapHouse">
           <p>House Number: {i}</p>
           <p>House ID: {house.id}</p>
           <p>House Position X: {house.position[0]} Y: {house.position[1]} Z: {house.position[2]}</p>
@@ -146,7 +148,7 @@ const App = () => {
           <p>House Amount Of Points: {house.points.length}</p>
           <p>House Height: {house.height}</p>
         </div>))}
-        <div style={{ position: "absolute", top: 20, left: 250, display: "flex", flexDirection: "column", background: "white"}}>
+        <div id="currentHouse">
           <p>CurrentHouse: {selectedHouseObject?.id}</p>
           <p>CurrentHouse Position: X: {selectedHouseObject?.position.x} Y: {selectedHouseObject?.position.y} Z: {selectedHouseObject?.position.z}</p>
           <p>CurrentHouse Rotation: X: {selectedHouseObject?.rotation.x} Y: {selectedHouseObject?.rotation.y} Z: {selectedHouseObject?.rotation.z}</p>
@@ -154,7 +156,7 @@ const App = () => {
         </div>
       </div>
       <button
-        style={{ position: "absolute", right: 20, top: 20, height: "40px" }}
+        id="getRequest"
         onClick={handleOnClickGetHousesFromAPI}
       >
         GET Houses from API

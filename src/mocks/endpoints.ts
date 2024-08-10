@@ -54,7 +54,7 @@ const getRandomXZPos = () => {
 
 /**
  * The sortPointsByAngle method returns the angleA - angleB value of a point. What happens here is it is sorting the points by their angle
- * in order to keep the convexity of the shapes.
+ * in order to keep the convexity of the shapes. Also to know how they are sorted we are taking out the centroid of the points and sorting them around the centroid.
  * @param pts 
  * @returns 
  */

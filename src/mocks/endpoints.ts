@@ -2,7 +2,7 @@ import { House } from "managers/HouseManager/HouseManager.types";
 
 
 export const getHousesGenerator: () => House[] = () => {
-  
+
   const amountOfHouses = getRandomVal(10);
   const randomHouseVal = amountOfHouses ? amountOfHouses : 1;
 
@@ -30,17 +30,37 @@ export const getHousesGenerator: () => House[] = () => {
 
 /**
  * The method getRandomXZPos returns random X and Z values for the position of the house as well as for the points.
- * @returns 
+ * The method will also try and convex the shapes of the buildings.
+ * @returns "tempRandomVal of type [][]"
  */
 const getRandomXZPos = () => {
 
   const maxPoints = 4;
   const tempRandomVal = [];
-  for(let j = 0; j < maxPoints; j++) {
+  let previousXVal = 0;
+  let previousZVal = 0;
+  for (let i = 0; i < maxPoints; i++) {
+
     const randomXPos = Math.floor(Math.random() * 25);
     const randomZPos = Math.floor(Math.random() * 25);
 
+    if (i === maxPoints - 1) {
+      let newRandXPos = 0;
+      let newRandZPos = 0;
+      if (randomXPos < previousXVal) {
+        newRandXPos = randomXPos > previousXVal ? Math.floor(Math.random() * 25) : 0;
+        if (newRandXPos === 0) continue;
+      }
+      if (randomZPos < previousZVal) {
+        newRandZPos = randomZPos > previousZVal ? Math.floor(Math.random() * 25) : 0;
+        if (newRandZPos === 0) continue;
+      }
+      tempRandomVal.push([newRandXPos, 0, newRandZPos]);
+      return tempRandomVal;
+    }
     tempRandomVal.push([randomXPos, 0, randomZPos]);
+    previousXVal = randomXPos;
+    previousZVal = randomZPos;
   }
   return tempRandomVal;
 }

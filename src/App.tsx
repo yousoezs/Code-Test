@@ -84,14 +84,15 @@ const App = () => {
 
     if (!selectedHouseObject || !selectedPointObject) return;
 
+    pivotMatrix.copy(matrix);
+    
     const newPointPosition = new Vector3().setFromMatrixPosition(matrix);
 
     const delta = new Vector3().subVectors(newPointPosition, initialPointPosition);
 
     selectedHouseObject.position.add(delta);
-    selectedHouseObject.rotation.setFromRotationMatrix(pivotMatrix);
+    selectedHouseObject.rotation.setFromRotationMatrix(matrix);
     initialPointPosition.copy(newPointPosition);
-    pivotMatrix.copy(matrix);
   };
 
   const handleOnDragEndPivotControls = () => {

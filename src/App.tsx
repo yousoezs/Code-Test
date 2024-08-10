@@ -16,6 +16,8 @@ import GridHelper from "components/GridHelper";
 import HouseManager from "managers/HouseManager";
 import Light from "components/Light";
 import PivotControls from "components/PivotControls";
+import ScrollableContainer from "./components/ScrollableContainer";
+import CurrentHouseDisplay from "./components/CurrentHouseContainer";
 import "./App.css";
 
 
@@ -91,7 +93,7 @@ const App = () => {
 
     selectedHouseObject.position.add(delta);
     //PSEUDO: Rotate object based on pointobject rotation.
-    selectedHouseObject.setRotationFromMatrix(selectedPointObject.matrix);
+    selectedHouseObject.setRotationFromMatrix(matrix);
 
     initialPointPosition.copy(newPointPosition);
   };
@@ -139,22 +141,31 @@ const App = () => {
           onDragEnd={handleOnDragEndPivotControls}
         />
       </Canvas>
-      <div id="container">
-        {houses.map((house, i) => (<div id="mapHouse">
-          <p>House Number: {i}</p>
-          <p>House ID: {house.id}</p>
-          <p>House Position X: {house.position[0]} Y: {house.position[1]} Z: {house.position[2]}</p>
-          <p>House Rotation X: {house.rotation[0]} Y: {house.rotation[1]} Z: {house.rotation[2]}</p>
-          <p>House Amount Of Points: {house.points.length}</p>
-          <p>House Height: {house.height}</p>
-        </div>))}
-        <div id="currentHouse">
-          <p>CurrentHouse: {selectedHouseObject?.id}</p>
-          <p>CurrentHouse Position: X: {selectedHouseObject?.position.x} Y: {selectedHouseObject?.position.y} Z: {selectedHouseObject?.position.z}</p>
-          <p>CurrentHouse Rotation: X: {selectedHouseObject?.rotation.x} Y: {selectedHouseObject?.rotation.y} Z: {selectedHouseObject?.rotation.z}</p>
-          <p>CurrentHouse Height: {selectedHouseObject?.id}</p>
-        </div>
-      </div>
+      <ScrollableContainer>
+        {houses.map((house, i) => (
+          <div className="mapHouse" key={i}>
+            <p>House Number: {i}</p>
+            <p>House ID: {house.id}</p>
+            <p>House Position X: {house.position[0]} Y: {house.position[1]} Z: {house.position[2]}</p>
+            <p>House Rotation X: {house.rotation[0]} Y: {house.rotation[1]} Z: {house.rotation[2]}</p>
+            <p>House Amount Of Points: {house.points.length}</p>
+            <p>House Height: {house.height}</p>
+          </div>
+        ))}
+        <CurrentHouseDisplay house={{
+        id: selectedHouseObject?.id,
+        position: {
+          x: selectedHouseObject?.position.x,
+          y: selectedHouseObject?.position.y,
+          z: selectedHouseObject?.position.z,
+        },
+        rotation: {
+          x: selectedHouseObject?.rotation.x,
+          y: selectedHouseObject?.rotation.y,
+          z: selectedHouseObject?.rotation.z,
+        },
+      }} />
+      </ScrollableContainer>
       <button
         id="getRequest"
         onClick={handleOnClickGetHousesFromAPI}

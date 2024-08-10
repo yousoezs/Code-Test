@@ -70,7 +70,6 @@ const App = () => {
     pivotMatrix.copy(pointObject.matrixWorld);
     setSelectedPointObject(pointObject);
     setSelectedHouseObject(houseObject);
-
     //We are setting the initialPointPosition here that is a Vector3 when we click the pivot object in order to compare the difference when we start drag.
     initialPointPosition.setFromMatrixPosition(pointObject.matrixWorld);
   };
@@ -88,13 +87,12 @@ const App = () => {
     if (!selectedHouseObject || !selectedPointObject) return;
     pivotMatrix.copy(matrix);
     const newPointPosition = new Vector3().setFromMatrixPosition(matrix);
-
+   
     const delta = new Vector3().subVectors(newPointPosition, initialPointPosition);
-
+    
+    //TODO: Rotate object based on pointobject rotation.
     selectedHouseObject.position.add(delta);
-    //PSEUDO: Rotate object based on pointobject rotation.
     selectedHouseObject.setRotationFromMatrix(matrix);
-
     initialPointPosition.copy(newPointPosition);
   };
 
@@ -133,7 +131,6 @@ const App = () => {
         <Light />
         <PivotControls
           {...PIVOT_DEFAULT_PROPS}
-
           enabled={!!selectedHouseObject}
           matrix={pivotMatrix}
           onDragStart={handleOnDragStartPivotControls}

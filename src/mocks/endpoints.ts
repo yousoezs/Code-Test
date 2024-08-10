@@ -1,6 +1,11 @@
 import { House } from "managers/HouseManager/HouseManager.types";
 
-
+/**
+ * The mocked endpoint for getting houses trough a button click.
+ * The method generates random houses with random points, height and position as well as setting the id of a house.
+ * The method also ensures to keep the convexity of each instanced house.
+ * @returns 
+ */
 export const getHousesGenerator: () => House[] = () => {
 
   const amountOfHouses = getRandomVal(10);
@@ -29,41 +34,42 @@ export const getHousesGenerator: () => House[] = () => {
 };
 
 /**
- * The method getRandomXZPos returns random X and Z values for the position of the house as well as for the points.
- * The method will also try and convex the shapes of the buildings by checking if the last index of the loop is passing trough points.
- * @returns "tempRandomVal of type [][]"
+ * The method getRandomXZPos returns a randomized values for 4 points depending on the maxcoordinates.
+ * The return of the method runs the method sortPointsByAngle.
+ * @returns 
  */
 const getRandomXZPos = () => {
+  const numPoints = 4;
+  const maxCoordinate = 25;
+  const points: [number, number, number][] = [];
 
-  const maxPoints = 4;
-  const tempRandomVal = [];
-  let previousXVal = 0;
-  let previousZVal = 0;
-  for (let i = 0; i < maxPoints; i++) {
-
-    const randomXPos = Math.floor(Math.random() * 25);
-    const randomZPos = Math.floor(Math.random() * 25);
-
-    if (i === maxPoints - 1) {
-      let newRandXPos = 0;
-      let newRandZPos = 0;
-      if (randomXPos < previousXVal) {
-        newRandXPos = randomXPos > previousXVal ? Math.floor(Math.random() * 25) : 0;
-        if (newRandXPos === 0) continue;
-      }
-      if (randomZPos < previousZVal) {
-        newRandZPos = randomZPos > previousZVal ? Math.floor(Math.random() * 25) : 0;
-        if (newRandZPos === 0) continue;
-      }
-      tempRandomVal.push([newRandXPos, 0, newRandZPos]);
-      return tempRandomVal;
-    }
-    tempRandomVal.push([randomXPos, 0, randomZPos]);
-    previousXVal = randomXPos;
-    previousZVal = randomZPos;
+  for (let i = 0; i < numPoints; i++) {
+    points.push([Math.floor(Math.random() * maxCoordinate), 0, Math.floor(Math.random() * maxCoordinate)]);
   }
-  return tempRandomVal;
-}
+
+  const sortedPoints = sortPointsByAngle(points);
+  
+  return sortedPoints;
+};
+
+/**
+ * The sortPointsByAngle method returns the angleA - angleB value of a point. What happens here is it is sorting the points by their angle
+ * in order to keep the convexity of the shapes.
+ * @param pts 
+ * @returns 
+ */
+const sortPointsByAngle = (pts: [number, number, number][]) => {
+  const centroid = pts.reduce(([sumX, sumY, sumZ], [x, y, z]) => [sumX + x, sumY + y, sumZ + z], [0, 0, 0]);
+  centroid[0] /= pts.length;
+  centroid[1] /= pts.length;
+  centroid[2] /= pts.length;
+
+  return pts.sort((a, b) => {
+    const angleA = Math.atan2(a[2] - centroid[2], a[0] - centroid[0]);
+    const angleB = Math.atan2(b[2] - centroid[2], b[0] - centroid[0]);
+    return angleA - angleB;
+  });
+};
 /**
  * The method getRandomVal simply returns a random value of a maximum that has been inserted. Example
  * If you insert value 100 in the parameter you would get a value from 0-100.

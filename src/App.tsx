@@ -61,7 +61,6 @@ const App = () => {
   const [enabledCameraControls, setEnabledCameraControls] = useState(true);
   const [selectedHouseObject, setSelectedHouseObject] = useState<Object3D>();
   const [selectedPointObject, setSelectedPointObject] = useState<Object3D>();
-  const [houseChildObject, setHouseChildObject] = useState<Object3D>();
 
   /** Callbacks */
   const handleOnClickHousePointObject = (

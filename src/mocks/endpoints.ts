@@ -40,7 +40,7 @@ export const getHousesGenerator: () => House[] = () => {
  */
 const getRandomXZPos = () => {
   const numPoints = 4;
-  const maxCoordinate = 25;
+  const maxCoordinate = 15;
   const points: [number, number, number][] = [];
 
   for (let i = 0; i < numPoints; i++) {

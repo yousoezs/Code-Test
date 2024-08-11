@@ -44,11 +44,13 @@ const getRandomXZPos = () => {
   const points: [number, number, number][] = [];
 
   for (let i = 0; i < numPoints; i++) {
-    points.push([Math.floor(Math.random() * maxCoordinate), 0, Math.floor(Math.random() * maxCoordinate)]);
+    const x = Math.floor(Math.random() * (2 * maxCoordinate + 1)) - maxCoordinate;
+    const z = Math.floor(Math.random() * (2 * maxCoordinate + 1)) - maxCoordinate;
+    points.push([x, 0, z]);
   }
 
   const sortedPoints = sortPointsByAngle(points);
-  
+
   return sortedPoints;
 };
 

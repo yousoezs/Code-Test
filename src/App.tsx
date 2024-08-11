@@ -61,6 +61,7 @@ const App = () => {
   const [enabledCameraControls, setEnabledCameraControls] = useState(true);
   const [selectedHouseObject, setSelectedHouseObject] = useState<Object3D>();
   const [selectedPointObject, setSelectedPointObject] = useState<Object3D>();
+  const [houseChildObject, setHouseChildObject] = useState<Object3D>();
 
   /** Callbacks */
   const handleOnClickHousePointObject = (
@@ -73,7 +74,7 @@ const App = () => {
     //We are setting the initialPointPosition here that is a Vector3 when we click the pivot object in order to compare the difference when we start drag.
     initialPointPosition.setFromMatrixPosition(pointObject.matrixWorld);
   };
-
+  
   /**
  * The handleOnDragPivotControls handles the pivot controls of the house as well as moving the position of the object.
  * This is done by calculating the difference between the newPointPosition and the matrix.
@@ -89,7 +90,6 @@ const App = () => {
     const newPointPosition = new Vector3().setFromMatrixPosition(matrix);
    
     const delta = new Vector3().subVectors(newPointPosition, initialPointPosition);
-    
     //TODO: Rotate object based on pointobject rotation.
     selectedHouseObject.position.add(delta);
     selectedHouseObject.setRotationFromMatrix(matrix);
